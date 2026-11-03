@@ -1,0 +1,32 @@
+[
+  {
+    "id": "livro-exemplo-1",
+    "nome": "Livro de exemplo",
+    "categoria": "Livros",
+    "condicao": "Usado",
+    "preco": 25,
+    "descricao": "Bom estado, sem rasuras. Substitua este item pelo seu.",
+    "imagens": [],
+    "status": "disponivel"
+  },
+  {
+    "id": "boneco-exemplo-1",
+    "nome": "Boneco decorativo",
+    "categoria": "Decoração",
+    "condicao": "Semi-novo",
+    "preco": 40,
+    "descricao": "Boneco de decoração em ótimo estado.",
+    "imagens": [],
+    "status": "disponivel"
+  },
+  {
+    "id": "pingpong-exemplo-1",
+    "nome": "Bolinhas de ping pong (kit)",
+    "categoria": "Esportes",
+    "condicao": "Novo",
+    "preco": 12,
+    "descricao": "Kit de bolinhas, lacrado.",
+    "imagens": [],
+    "status": "disponivel"
+  }
+]
