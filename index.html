@@ -4,126 +4,288 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Mini Bazar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Young+Serif&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#faf8f5;--card:#fff;--ink:#2b2622;--mut:#7a7068;--acc:#c2410c;--bd:#e8e2da}
-  @media(prefers-color-scheme:dark){:root{--bg:#1c1917;--card:#292524;--ink:#f5f0ea;--mut:#a8a29e;--acc:#fb923c;--bd:#3f3a36}}
+  :root{
+    color-scheme:light dark;
+    --linho:#F1EFE4; --papel:#FBFAF3; --tinta:#2B352E; --suave:#5A6454;
+    --musgo:#3E6B50; --musgo-esc:#2F5640; --sobre-musgo:#fff;
+    --etiqueta:#F0C14B; --sobre-etiqueta:#2B352E;
+    --borda:#D8D3BE; --vendido:#7A5C58;
+    --furo:var(--papel);
+    --serif:'Young Serif',Georgia,serif; --sans:'Nunito',system-ui,sans-serif;
+  }
+  @media(prefers-color-scheme:dark){:root{
+    --linho:#1E241F; --papel:#273029; --tinta:#ECEAD9; --suave:#A9B2A0;
+    --musgo:#8CC2A0; --musgo-esc:#A6D3B6; --sobre-musgo:#1E241F;
+    --etiqueta:#E3B53F; --sobre-etiqueta:#222A24;
+    --borda:#3A453C; --vendido:#A07E78;
+  }}
   *{box-sizing:border-box}
-  body{margin:0;font-family:system-ui,sans-serif;background:var(--bg);color:var(--ink)}
-  header{padding:28px 16px 12px;max-width:1000px;margin:auto}
-  h1{margin:0;font-size:1.9rem}
-  header p{margin:4px 0 0;color:var(--mut)}
-  .tools{max-width:1000px;margin:12px auto;padding:0 16px;display:flex;gap:8px;flex-wrap:wrap}
-  input,select{padding:10px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--ink);font-size:1rem}
-  input{flex:1;min-width:180px}
-  main{max-width:1000px;margin:auto;padding:8px 16px 48px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
-  .card{background:var(--card);border:1px solid var(--bd);border-radius:14px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column}
-  .card:hover{border-color:var(--acc)}
-  .ph{aspect-ratio:1;background:var(--bd);display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:.9rem;position:relative}
-  .ph img{width:100%;height:100%;object-fit:cover}
-  .info{padding:12px}
-  .info h3{margin:0 0 4px;font-size:1rem}
-  .preco{font-weight:700;color:var(--acc)}
-  .tag{font-size:.75rem;color:var(--mut)}
-  .vendido{position:absolute;top:8px;left:8px;background:#000a;color:#fff;padding:2px 8px;border-radius:99px;font-size:.75rem}
-  .detail{display:grid;gap:16px;max-width:640px;margin:auto}
-  .detail .ph{border-radius:14px;overflow:hidden}
-  .thumbs{display:flex;gap:8px;overflow-x:auto}
-  .thumbs img{width:64px;height:64px;object-fit:cover;border-radius:8px;cursor:pointer;border:2px solid transparent}
-  .btn{display:inline-block;background:var(--acc);color:#fff;text-decoration:none;padding:14px 18px;border-radius:12px;font-weight:700;text-align:center;border:0;font-size:1rem;cursor:pointer}
-  .back{background:none;border:0;color:var(--acc);font-size:1rem;cursor:pointer;padding:0;margin:8px 0}
-  .empty{text-align:center;color:var(--mut);padding:40px 0}
-  footer{text-align:center;color:var(--mut);font-size:.8rem;padding:20px}
+  body{margin:0;font-family:var(--sans);background:var(--linho);color:var(--tinta);line-height:1.5}
+  a{color:inherit}
+  :focus-visible{outline:3px solid var(--musgo);outline-offset:2px}
+
+  .in{max-width:1000px;margin:auto;padding-left:16px;padding-right:16px}
+  .topo{padding:32px 0 18px;border-bottom:2px dashed var(--borda)}
+  h1{margin:0;font-family:var(--serif);font-weight:400;font-size:2.2rem;line-height:1.15}
+  .topo p{margin:6px 0 0;color:var(--suave);font-size:1.05rem}
+
+  .tools{padding-top:18px;padding-bottom:4px}
+  #q{width:100%;padding:12px 14px;border:1px solid var(--borda);border-radius:10px;background:var(--papel);color:var(--tinta);font:inherit}
+  #q::placeholder{color:var(--suave)}
+  .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .chip-f{padding:6px 14px;border:1px solid var(--borda);border-radius:99px;background:transparent;color:var(--tinta);font:inherit;font-weight:600;font-size:.92rem;cursor:pointer}
+  .chip-f:hover{border-color:var(--musgo)}
+  .chip-f[aria-pressed="true"]{background:var(--musgo);border-color:var(--musgo);color:var(--sobre-musgo)}
+
+  main{padding-top:16px;padding-bottom:56px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}
+  @media(min-width:640px){.grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px}}
+
+  .card{--furo:var(--papel);display:flex;flex-direction:column;background:var(--papel);border:1px solid var(--borda);border-radius:12px;overflow:hidden;text-decoration:none}
+  .card:hover{border-color:var(--musgo)}
+  .ph{position:relative;aspect-ratio:1;overflow:hidden;background:var(--borda);display:flex;align-items:center;justify-content:center;color:var(--suave);font-size:.9rem}
+  .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .st-vendido .ph img{filter:grayscale(.85);opacity:.7}
+  .selo{position:absolute;top:10px;left:10px;padding:2px 10px;border-radius:99px;font-weight:800;font-size:.78rem}
+  .selo-reservado{background:var(--etiqueta);color:var(--sobre-etiqueta)}
+  .selo-vendido{background:var(--vendido);color:#fff}
+  .fotos{position:absolute;right:8px;bottom:8px;padding:1px 8px;border-radius:99px;background:rgba(30,36,31,.72);color:#fff;font-size:.75rem;font-weight:600}
+  .info{padding:12px 12px 14px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+  .info h3{margin:0;font-family:var(--serif);font-weight:400;font-size:1.05rem;line-height:1.25}
+  .cat{color:var(--suave);font-size:.85rem}
+
+  /* Etiqueta de preço: o detalhe de destaque */
+  .preco{position:relative;display:inline-block;background:var(--etiqueta);color:var(--sobre-etiqueta);font-family:var(--serif);font-size:1.05rem;line-height:1.2;padding:4px 12px 4px 26px;clip-path:polygon(12px 0,100% 0,100% 100%,12px 100%,0 50%)}
+  .preco::before{content:"";position:absolute;left:12px;top:50%;width:7px;height:7px;margin-top:-3.5px;border-radius:50%;background:var(--furo)}
+  .st-vendido .preco{background:var(--borda);color:var(--suave);text-decoration:line-through}
+
+  .chip{display:inline-block;padding:1px 10px;border:1px solid var(--borda);border-radius:99px;font-size:.8rem;font-weight:600;color:var(--suave)}
+
+  /* Detalhe */
+  .back{display:inline-block;margin:8px 0 14px;color:var(--musgo-esc);font-weight:800;text-decoration:none}
+  .back:hover{text-decoration:underline}
+  .detalhe{--furo:var(--linho);display:grid;gap:20px;max-width:960px}
+  @media(min-width:760px){.detalhe{grid-template-columns:1.1fr 1fr;gap:32px;align-items:start}}
+  .stage{position:relative;aspect-ratio:1;background:var(--borda);border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;color:var(--suave);touch-action:pan-y}
+  .stage img{width:100%;height:100%;object-fit:contain;display:block;cursor:zoom-in}
+  .nav{position:absolute;top:50%;margin-top:-22px;width:44px;height:44px;border:0;border-radius:50%;background:rgba(251,250,243,.9);color:#2B352E;font-size:1.6rem;line-height:1;cursor:pointer}
+  .nav:hover{background:#fff}
+  .nav.prev{left:10px}.nav.next{right:10px}
+  .cont{position:absolute;right:10px;bottom:10px;padding:1px 10px;border-radius:99px;background:rgba(30,36,31,.72);color:#fff;font-size:.8rem;font-weight:600}
+  .thumbs{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding:2px}
+  .thumbs button{flex:none;width:64px;height:64px;padding:0;border:2px solid transparent;border-radius:8px;overflow:hidden;background:var(--borda);cursor:pointer;opacity:.7}
+  .thumbs button[aria-current="true"]{border-color:var(--musgo);opacity:1}
+  .thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .dados{display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+  .dados h2{margin:0;font-family:var(--serif);font-weight:400;font-size:1.7rem;line-height:1.2}
+  .preco.grande{font-size:1.5rem;padding:6px 16px 6px 32px;clip-path:polygon(16px 0,100% 0,100% 100%,16px 100%,0 50%)}
+  .preco.grande::before{left:16px;width:9px;height:9px;margin-top:-4.5px}
+  .meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .descr{margin:0;white-space:pre-wrap;max-width:60ch}
+  .btn{display:inline-block;background:var(--musgo);color:var(--sobre-musgo);text-decoration:none;padding:14px 22px;border-radius:12px;font-weight:800;font-size:1.02rem}
+  .btn:hover{background:var(--musgo-esc)}
+  .btn.sec{background:transparent;color:var(--musgo-esc);border:2px solid var(--musgo)}
+  .btn.sec:hover{background:var(--papel)}
+  .aviso{padding:12px 14px;border-radius:10px;border:1px solid var(--borda);background:var(--papel);max-width:60ch}
+  .aviso.reservado{border-color:var(--etiqueta)}
+  .aviso b{display:block}
+
+  .empty{text-align:center;color:var(--suave);padding:48px 0}
+  footer{text-align:center;color:var(--suave);font-size:.85rem;padding:8px 16px 32px}
+
+  /* Ampliar foto */
+  #lb{position:fixed;inset:0;z-index:10;background:rgba(20,24,21,.93);display:flex;align-items:center;justify-content:center;padding:16px}
+  #lb[hidden]{display:none}
+  #lb img{max-width:100%;max-height:100%;object-fit:contain}
+  #lb .nav{background:rgba(251,250,243,.9)}
+  #lb .x{position:absolute;top:12px;right:12px;width:44px;height:44px;border:0;border-radius:50%;background:rgba(251,250,243,.9);color:#2B352E;font-size:1.5rem;cursor:pointer}
+
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 <body>
-<header><h1 id="titulo"></h1><p id="desc"></p></header>
-<div id="tools" class="tools">
-  <input id="q" type="search" placeholder="Buscar produto...">
-  <select id="cat"><option value="">Todas as categorias</option></select>
+<header class="topo"><div class="in"><h1 id="titulo"></h1><p id="desc"></p></div></header>
+<div id="tools" class="in tools">
+  <input id="q" type="search" placeholder="Buscar produto" aria-label="Buscar produto">
+  <div id="chips" class="chips" role="group" aria-label="Categorias"></div>
 </div>
-<main id="app"></main>
-<footer>Pagamento e entrega combinados diretamente com o vendedor.</footer>
+<main id="app" class="in"></main>
+<footer>Pagamento e entrega combinados direto com o vendedor.</footer>
+
+<div id="lb" hidden role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <button class="x" id="lb-x" aria-label="Fechar">×</button>
+  <button class="nav prev" id="lb-prev" aria-label="Foto anterior">‹</button>
+  <img id="lb-img" alt="">
+  <button class="nav next" id="lb-next" aria-label="Próxima foto">›</button>
+</div>
 
 <script src="config.js"></script>
 <script>
 const C = window.BAZAR;
+const $ = id => document.getElementById(id);
 const brl = n => new Intl.NumberFormat('pt-BR',{style:'currency',currency:C.moeda}).format(n);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let produtos = [];
+const ROTULO = {disponivel:'Disponível', reservado:'Reservado', vendido:'Vendido'};
+const ORDEM = {disponivel:0, reservado:1, vendido:2};
+let produtos = [], catAtual = '', gal = {imgs:[], i:0, nome:''}, detalheAberto = false, lastFocus = null;
 
 document.title = C.nome;
-document.getElementById('titulo').textContent = C.nome;
-document.getElementById('desc').textContent = C.descricao;
+$('titulo').textContent = C.nome;
+$('desc').textContent = C.descricao;
 
 function zapLink(p){
   const num = atob(C.whatsappB64);
-  const msg = `Olá! Tenho interesse em: ${p.nome} (${brl(p.preco)}). Ainda está disponível?`;
+  const msg = p.status === 'reservado'
+    ? `Olá! Vi que "${p.nome}" está reservado. Se a reserva não for confirmada, tenho interesse!`
+    : `Olá! Tenho interesse em: ${p.nome} (${brl(p.preco)}). Ainda está disponível?`;
   return `https://wa.me/${num}?text=${encodeURIComponent(msg)}`;
 }
 
-function img(p, i = 0){
-  const src = p.imagens && p.imagens[i];
-  return src ? `<img src="${esc(src)}" alt="${esc(p.nome)}" loading="lazy">` : 'sem foto';
+const capa = p => (p.imagens && p.imagens[0]) ? `<img src="${esc(p.imagens[0])}" alt="${esc(p.nome)}" loading="lazy">` : 'sem foto';
+
+function chips(){
+  const cats = [...new Set(produtos.filter(p=>p.status!=='oculto').map(p => p.categoria))].sort();
+  $('chips').innerHTML = ['', ...cats].map(c =>
+    `<button class="chip-f" data-c="${esc(c)}" aria-pressed="${c===catAtual}">${c ? esc(c) : 'Tudo'}</button>`).join('');
 }
+$('chips').onclick = e => {
+  const b = e.target.closest('button'); if(!b) return;
+  catAtual = b.dataset.c; chips(); lista();
+};
 
 function lista(){
-  document.getElementById('tools').style.display = 'flex';
-  const q = document.getElementById('q').value.toLowerCase();
-  const cat = document.getElementById('cat').value;
-  const itens = produtos.filter(p =>
-    p.status !== 'oculto' &&
-    (!cat || p.categoria === cat) &&
-    (p.nome + ' ' + p.descricao).toLowerCase().includes(q));
-  const app = document.getElementById('app');
-  if(!itens.length){ app.innerHTML = '<div class="empty">Nenhum produto encontrado.</div>'; return; }
-  app.innerHTML = '<div class="grid">' + itens.map(p => `
-    <div class="card" data-id="${esc(p.id)}">
-      <div class="ph">${img(p)}${p.status==='vendido'?'<span class="vendido">Vendido</span>':''}</div>
+  detalheAberto = false;
+  $('tools').style.display = '';
+  document.title = C.nome;
+  const q = $('q').value.toLowerCase();
+  const itens = produtos
+    .filter(p => p.status !== 'oculto' && (!catAtual || p.categoria === catAtual) &&
+                 (p.nome + ' ' + p.descricao).toLowerCase().includes(q))
+    .sort((a,b) => (ORDEM[a.status]??0) - (ORDEM[b.status]??0));
+  const app = $('app');
+  if(!itens.length){ app.innerHTML = '<div class="empty">Nenhum produto por aqui. Tente outra busca ou categoria.</div>'; return; }
+  app.innerHTML = '<div class="grid">' + itens.map(p => {
+    const st = ORDEM[p.status] !== undefined ? p.status : 'disponivel';
+    const n = (p.imagens||[]).length;
+    return `
+    <a class="card st-${st}" href="#${encodeURIComponent(p.id)}">
+      <div class="ph">${capa(p)}
+        ${st!=='disponivel' ? `<span class="selo selo-${st}">${ROTULO[st]}</span>` : ''}
+        ${n>1 ? `<span class="fotos">${n} fotos</span>` : ''}</div>
       <div class="info"><h3>${esc(p.nome)}</h3>
-        <div class="preco">${brl(p.preco)}</div>
-        <div class="tag">${esc(p.condicao)} · ${esc(p.categoria)}</div></div>
-    </div>`).join('') + '</div>';
-  app.querySelectorAll('.card').forEach(c => c.onclick = () => { location.hash = c.dataset.id; });
+        <span class="preco">${brl(p.preco)}</span>
+        <span class="chip">${esc(p.condicao)}</span>
+        <span class="cat">${esc(p.categoria)}</span></div>
+    </a>`; }).join('') + '</div>';
 }
 
+/* Galeria */
+function setFoto(i){
+  const n = gal.imgs.length; if(!n) return;
+  gal.i = (i + n) % n;
+  const src = gal.imgs[gal.i];
+  const main = $('stage-img'); if(main) main.src = src;
+  const c = $('cont'); if(c) c.textContent = `${gal.i+1} / ${n}`;
+  document.querySelectorAll('.thumbs button').forEach((b,k) => b.setAttribute('aria-current', k===gal.i));
+  if(!$('lb').hidden) $('lb-img').src = src;
+}
+function abrirLb(){
+  if(!gal.imgs.length) return;
+  lastFocus = document.activeElement;
+  $('lb-img').src = gal.imgs[gal.i]; $('lb-img').alt = gal.nome;
+  const varias = gal.imgs.length > 1;
+  $('lb-prev').style.display = $('lb-next').style.display = varias ? '' : 'none';
+  $('lb').hidden = false; $('lb-x').focus();
+}
+function fecharLb(){ $('lb').hidden = true; if(lastFocus) lastFocus.focus(); }
+$('lb-x').onclick = fecharLb;
+$('lb-prev').onclick = () => setFoto(gal.i - 1);
+$('lb-next').onclick = () => setFoto(gal.i + 1);
+$('lb').onclick = e => { if(e.target === $('lb')) fecharLb(); };
+document.addEventListener('keydown', e => {
+  if(!$('lb').hidden){
+    if(e.key === 'Escape') fecharLb();
+    if(e.key === 'ArrowLeft') setFoto(gal.i - 1);
+    if(e.key === 'ArrowRight') setFoto(gal.i + 1);
+  } else if(detalheAberto && gal.imgs.length > 1 && !/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)){
+    if(e.key === 'ArrowLeft') setFoto(gal.i - 1);
+    if(e.key === 'ArrowRight') setFoto(gal.i + 1);
+  }
+});
+
 function detalhe(p){
-  document.getElementById('tools').style.display = 'none';
-  const vendido = p.status === 'vendido';
-  const thumbs = (p.imagens||[]).length > 1
-    ? '<div class="thumbs">' + p.imagens.map((s,i)=>`<img src="${esc(s)}" data-i="${i}" alt="">`).join('') + '</div>' : '';
-  document.getElementById('app').innerHTML = `
-    <button class="back" onclick="location.hash=''">← Voltar</button>
-    <div class="detail">
-      <div class="ph" id="main-ph">${img(p)}</div>${thumbs}
-      <div><h2 style="margin:0">${esc(p.nome)}</h2>
-        <div class="preco" style="font-size:1.4rem">${brl(p.preco)}</div>
-        <div class="tag">${esc(p.condicao)} · ${esc(p.categoria)}</div></div>
-      <p style="white-space:pre-wrap;margin:0">${esc(p.descricao)}</p>
-      ${vendido ? '<div class="empty">Este item já foi vendido.</div>'
-                : `<a class="btn" href="${zapLink(p)}" target="_blank" rel="noopener">Chamar no WhatsApp</a>`}
-    </div>`;
-  document.querySelectorAll('.thumbs img').forEach(t => t.onclick = () => {
-    document.getElementById('main-ph').innerHTML = img(p, +t.dataset.i);
-  });
+  detalheAberto = true;
+  $('tools').style.display = 'none';
+  document.title = `${p.nome} · ${C.nome}`;
+  const st = ORDEM[p.status] !== undefined ? p.status : 'disponivel';
+  gal = {imgs: p.imagens || [], i: 0, nome: p.nome};
+  const n = gal.imgs.length;
+  const stage = n
+    ? `<img id="stage-img" src="${esc(gal.imgs[0])}" alt="${esc(p.nome)}">
+       ${n>1 ? `<button class="nav prev" id="g-prev" aria-label="Foto anterior">‹</button>
+                <button class="nav next" id="g-next" aria-label="Próxima foto">›</button>
+                <span class="cont" id="cont">1 / ${n}</span>` : ''}`
+    : 'sem foto';
+  const thumbs = n > 1
+    ? '<div class="thumbs">' + gal.imgs.map((s,i) =>
+        `<button data-i="${i}" aria-label="Ver foto ${i+1}" aria-current="${i===0}"><img src="${esc(s)}" alt=""></button>`).join('') + '</div>'
+    : '';
+  let acao = '';
+  if(st === 'disponivel') acao = `<a class="btn" href="${zapLink(p)}" target="_blank" rel="noopener">Chamar no WhatsApp</a>`;
+  if(st === 'reservado') acao = `<div class="aviso reservado"><b>Este item está reservado.</b>Se a reserva não for confirmada, ele volta para a vitrine. Quer ficar na fila?</div>
+                                 <a class="btn sec" href="${zapLink(p)}" target="_blank" rel="noopener">Avisar que tenho interesse</a>`;
+  if(st === 'vendido') acao = '<div class="aviso"><b>Este item já foi vendido.</b>Veja os outros produtos do catálogo.</div>';
+
+  $('app').innerHTML = `
+    <a class="back" href="#">‹ Voltar ao catálogo</a>
+    <article class="detalhe st-${st}">
+      <div class="galeria"><div class="stage" id="stage">${stage}</div>${thumbs}</div>
+      <div class="dados">
+        <h2>${esc(p.nome)}</h2>
+        <span class="preco grande">${brl(p.preco)}</span>
+        <div class="meta"><span class="chip">${esc(p.condicao)}</span><span class="cat">${esc(p.categoria)}</span></div>
+        <p class="descr">${esc(p.descricao)}</p>
+        ${acao}
+      </div>
+    </article>`;
+
+  if(n){
+    $('stage-img').onclick = abrirLb;
+    if(n > 1){
+      $('g-prev').onclick = () => setFoto(gal.i - 1);
+      $('g-next').onclick = () => setFoto(gal.i + 1);
+      document.querySelectorAll('.thumbs button').forEach(b => b.onclick = () => setFoto(+b.dataset.i));
+      let x0 = null;
+      $('stage').addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive:true});
+      $('stage').addEventListener('touchend', e => {
+        if(x0 === null) return;
+        const dx = e.changedTouches[0].clientX - x0; x0 = null;
+        if(Math.abs(dx) > 40) setFoto(gal.i + (dx < 0 ? 1 : -1));
+      });
+    }
+  }
   window.scrollTo(0,0);
 }
 
 function rota(){
+  if(!$('lb').hidden) $('lb').hidden = true;
   const id = decodeURIComponent(location.hash.slice(1));
-  const p = produtos.find(x => x.id === id);
+  const p = produtos.find(x => x.id === id && x.status !== 'oculto');
   p ? detalhe(p) : lista();
 }
 
 fetch('products.json?v=' + Date.now()).then(r => r.json()).then(d => {
   produtos = d;
-  const cats = [...new Set(d.filter(p=>p.status!=='oculto').map(p => p.categoria))].sort();
-  document.getElementById('cat').innerHTML += cats.map(c => `<option>${esc(c)}</option>`).join('');
-  document.getElementById('q').oninput = lista;
-  document.getElementById('cat').onchange = lista;
+  chips();
+  $('q').oninput = lista;
   window.onhashchange = rota;
   rota();
-}).catch(() => { document.getElementById('app').innerHTML = '<div class="empty">Não foi possível carregar o catálogo.</div>'; });
+}).catch(() => { $('app').innerHTML = '<div class="empty">Não foi possível carregar o catálogo. Recarregue a página em instantes.</div>'; });
 </script>
 </body>
 </html>
