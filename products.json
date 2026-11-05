@@ -6,7 +6,9 @@
     "condicao": "Usado",
     "preco": 25,
     "descricao": "Bom estado, sem rasuras. Substitua este item pelo seu.",
-    "imagens": [],
+    "imagens": [
+      "img/1793894390435-yz7m2.jpg"
+    ],
     "status": "disponivel"
   },
   {
