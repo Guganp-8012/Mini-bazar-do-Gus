@@ -16,7 +16,9 @@
     "condicao": "Semi-novo",
     "preco": 40,
     "descricao": "Boneco de decoração em ótimo estado.",
-    "imagens": [],
+    "imagens": [
+      "img/1793894367729-p9ws9.jpg"
+    ],
     "status": "disponivel"
   },
   {
