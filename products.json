@@ -21,12 +21,14 @@
   },
   {
     "id": "pingpong-exemplo-1",
-    "nome": "Bolinhas de ping pong (kit)",
+    "nome": "Bolinha de Ping Pong (1x Unidade)",
     "categoria": "Esportes",
     "condicao": "Novo",
-    "preco": 12,
-    "descricao": "Kit de bolinhas, lacrado.",
-    "imagens": [],
+    "preco": 498.72,
+    "descricao": "São bolinhas 👍.",
+    "imagens": [
+      "img/1793894137210-mgjs9.jpg"
+    ],
     "status": "disponivel"
   }
 ]
